@@ -3,7 +3,7 @@ import logo from './logo.png';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './ForgotPassword.css'; // Assuming you have a CSS file for styling
+import './ForgetPassword.css'; // Assuming you have a CSS file for styling
 // const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 const ForgotPassword = () => {
