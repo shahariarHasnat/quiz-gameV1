@@ -24,41 +24,6 @@ exports.register = async (req, res) => {
 };
 
 
-// try {
-//     // Send the email and password to the server using axios
-//     const response = await axios.post(`http://localhost:5000/login`, {
-//       email: formData.email,
-//       password: formData.password,
-//     });
-  
-//     // Store the token in localStorage for authorization purposes
-//     localStorage.setItem('token', response.data.token);
-  
-//     //temp display in browser console
-//     console.log('signed token by server:', localStorage.getItem('token'));
-  
-//     // Display success message and clear errors
-//     setSuccess('Login successful!');
-//     setError('');
-  
-//     // Redirect the user to the dashboard or another protected route
-//     navigate('/dashboard');
-//   } catch (err) {
-//     // Handle different server responses and display appropriate errors
-//     if (err.response && err.response.status === 401) {
-//       setError(err.response.data.message);  // Display specific error message from server
-//     } else if (err.response && err.response.status === 500) {
-//       setError('Server error. Please try again later.');
-//       console.error('Server error:', err.response.data.error);  // Log the actual server error
-//     } else {
-//       setError('An unexpected error occurred. Please try again.');
-//     }
-//     setSuccess('');
-//   } finally {
-//     setIsLoading(false);
-//   }
-  
-
 // Login
 exports.login = async (req, res) => {
   const { email, password } = req.body;

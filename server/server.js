@@ -14,6 +14,16 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/', userRoutes);
 
+// sequelize.sync()
+//   .then(() => {
+//     console.log('Database synced');
+//     const PORT = process.env.PORT || 5000;
+//     app.listen(PORT, () => {
+//       console.log(`Server is running on port ${PORT}`);
+//     });
+//   })
+//   .catch(err => console.log('Error syncing database:', err));
+
 sequelize.sync()
   .then(() => {
     console.log('Database synced');
@@ -22,4 +32,4 @@ sequelize.sync()
       console.log(`Server is running on port ${PORT}`);
     });
   })
-  .catch(err => console.log('Error syncing database:', err));
+  .catch(err => console.error('Detailed database connection error:', err));
