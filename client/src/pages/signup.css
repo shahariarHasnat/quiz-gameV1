@@ -1,0 +1,168 @@
+/* Container for the entire signup form card */
+.signup-card {
+    /* background-color: #edf2fa; */
+    background-color: #dce1e9;  
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Logo Styling */
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  /* Heading for form */
+  h2 {
+    font-size: 1.5rem;
+    color: #2c2c6c;
+    margin-bottom: 20px;
+  }
+  
+  /* Button for Google signup */
+  .google-login-btn {
+    background-color: #00214e;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .google-login-btn span {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  /* Divider for form */
+  .divider {
+    color: #c3c3c3;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  /* Input fields styling */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid #d8d8d8;
+    border-radius: 8px;
+    background: #f9f9f9;
+    font-size: 14px;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #00214e;
+    outline: none;
+  }
+  
+  /* Styling for error messages */
+  .error {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Success message */
+  .success {
+    color: #4caf50;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Password Strength */
+  .password-strength {
+    height: 5px;
+    border-radius: 5px;
+    margin-top: -8px;
+  }
+  
+  .password-strength.weak {
+    background-color: red;
+  }
+  
+  .password-strength.medium {
+    background-color: yellow;
+  }
+  
+  .password-strength.strong {
+    background-color: green;
+  }
+  
+  .password-strength.very-strong {
+    background-color: blue;
+  }
+  
+  /* Continue Button */
+  .continue-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #00214e;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .continue-btn:disabled {
+    background-color: #d3d3d3;
+  }
+  
+  /* Forgot password link */
+  .forgot-password-link {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #00214e;
+    text-decoration: none;
+  }
+  
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Link for terms and login prompt */
+  .signup-prompt, .terms {
+    font-size: 12px;
+    margin-top: 20px;
+    color: #00214e;
+  }
+  
+  .signup-prompt a, .terms a {
+    color: #00214e;
+    text-decoration: none;
+  }
+  
+  .signup-prompt a:hover, .terms a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Media Queries for responsive design */
+  @media (max-width: 768px) {
+    .signup-card {
+      margin: 20px;
+      padding: 20px;
+    }
+  }
+  
