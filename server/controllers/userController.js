@@ -24,40 +24,66 @@ exports.register = async (req, res) => {
 };
 
 
-try {
-    // Send the email and password to the server using axios
-    const response = await axios.post(`http://localhost:5000/login`, {
-      email: formData.email,
-      password: formData.password,
-    });
+// try {
+//     // Send the email and password to the server using axios
+//     const response = await axios.post(`http://localhost:5000/login`, {
+//       email: formData.email,
+//       password: formData.password,
+//     });
   
-    // Store the token in localStorage for authorization purposes
-    localStorage.setItem('token', response.data.token);
+//     // Store the token in localStorage for authorization purposes
+//     localStorage.setItem('token', response.data.token);
   
-    //temp display in browser console
-    console.log('signed token by server:', localStorage.getItem('token'));
+//     //temp display in browser console
+//     console.log('signed token by server:', localStorage.getItem('token'));
   
-    // Display success message and clear errors
-    setSuccess('Login successful!');
-    setError('');
+//     // Display success message and clear errors
+//     setSuccess('Login successful!');
+//     setError('');
   
-    // Redirect the user to the dashboard or another protected route
-    navigate('/dashboard');
-  } catch (err) {
-    // Handle different server responses and display appropriate errors
-    if (err.response && err.response.status === 401) {
-      setError(err.response.data.message);  // Display specific error message from server
-    } else if (err.response && err.response.status === 500) {
-      setError('Server error. Please try again later.');
-      console.error('Server error:', err.response.data.error);  // Log the actual server error
-    } else {
-      setError('An unexpected error occurred. Please try again.');
+//     // Redirect the user to the dashboard or another protected route
+//     navigate('/dashboard');
+//   } catch (err) {
+//     // Handle different server responses and display appropriate errors
+//     if (err.response && err.response.status === 401) {
+//       setError(err.response.data.message);  // Display specific error message from server
+//     } else if (err.response && err.response.status === 500) {
+//       setError('Server error. Please try again later.');
+//       console.error('Server error:', err.response.data.error);  // Log the actual server error
+//     } else {
+//       setError('An unexpected error occurred. Please try again.');
+//     }
+//     setSuccess('');
+//   } finally {
+//     setIsLoading(false);
+//   }
+  
+
+// Login
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    setSuccess('');
-  } finally {
-    setIsLoading(false);
+
+    // Check if the password is correct
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
+
+    // Respond with the token
+    res.status(200).json({ message: 'Login successful', token });
+  } catch (error) {
+    res.status(500).json({ message: 'Error logging in', error });
   }
-  
+};
   
   
   // Forget Password (Initiate Reset)

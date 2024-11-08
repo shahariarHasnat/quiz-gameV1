@@ -20,4 +20,3 @@ module.exports = {
   sequelize,   // Make sure to export the actual sequelize instance
   jwtSecret
 };
-
