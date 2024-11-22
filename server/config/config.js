@@ -1,9 +1,7 @@
-
 require('dotenv').config(); // Load environment variables from .env
-
 const { Sequelize } = require('sequelize');
 
-// Validate environment variables is not empty
+// Validate environment variables
 const requiredEnvVars = ['DB_NAME', 'DB_USER', 'DB_PASS', 'DB_HOST', 'DB_PORT', 'JWT_SECRET'];
 requiredEnvVars.forEach((key) => {
   if (!process.env[key]) {
@@ -11,24 +9,19 @@ requiredEnvVars.forEach((key) => {
   }
 });
 
-// Sequelize database connection 
+// Initialize Sequelize
 const sequelize = new Sequelize(
-  process.env.DB_NAME, // Database name
-  process.env.DB_USER, // Database username
-  process.env.DB_PASS, // Database password
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
   {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    logging: console.log, // Log SQL queries to the console
+    logging: console.log, // Log SQL queries for debugging
   }
 );
 
-// JWT secret configuration
-const jwtSecret = process.env.JWT_SECRET;
+// Export the Sequelize instance only
+module.exports = sequelize; // Export the Sequelize instance
 
-// Export both the sequelize instance and JWT secret
-module.exports = {
-  sequelize,
-  jwtSecret,
-};
