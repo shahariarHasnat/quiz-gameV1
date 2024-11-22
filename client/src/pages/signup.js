@@ -77,7 +77,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`http://localhost:5000/register`, {
+      const response = await axios.post(`http://localhost:5000/user/register`, {
         username: formData.username,  // Added username in the request
         email: formData.email,
         password: formData.password

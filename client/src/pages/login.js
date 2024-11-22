@@ -51,7 +51,7 @@ const Login = () => {
 
     try {
       // Send the email and password to the server using axios
-      const response = await axios.post(`http://localhost:5000/login`, {
+      const response = await axios.post(`http://localhost:5000/user/login`, {
         email: formData.email,
         password: formData.password,
       });

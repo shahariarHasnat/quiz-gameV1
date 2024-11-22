@@ -86,7 +86,7 @@ const ResetPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`http://localhost:5000/reset-password?token=${token}`, { newPassword });
+      const response = await axios.post(`http://localhost:5000/user/reset-password?token=${token}`, { newPassword });
 
       if (response.status === 200) {
         setSuccessMessage(response.data.message || 'Password successfully updated!');

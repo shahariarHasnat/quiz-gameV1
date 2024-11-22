@@ -54,7 +54,7 @@ const validateEmail = (email) => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/forget-password`, { email });
+      const response = await axios.post(`http://localhost:5000/user/forget-password`, { email });
 
       if (response.data.success) {
         setSuccessMessage('A reset link has been sent to your email.');
