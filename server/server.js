@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { sequelize } = require('./config/config');  // Import Sequelize instance
+const { sequelize } = require('./config/config');  
 const userRoutes = require('./routes/v1/userRoutes');
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/', userRoutes);
 
-sequelize.sync()
+sequelize.sync({ force: true })
   .then(() => {
     console.log('Database synced');
     const PORT = process.env.PORT || 5000;
