@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
   const token = 
     req.headers.authorization?.replace('Bearer ', '') ||
     req.query?.token ||
-    req.body?.token ;  // If you're using cookie-parser middleware
+    req.body?.token ;  
 
   if (!token) {
     console.log('No token provided in request');

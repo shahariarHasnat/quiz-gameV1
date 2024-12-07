@@ -39,18 +39,10 @@ const validate = (schema) => {
   };
 };
 
-// Register route
 router.post('/register', validate(registerSchema), userController.register);
-
-// Login route
 router.post('/login', validate(loginSchema), userController.login);
-
-// Forget password route
 router.post('/forget-password', validate(forgetPasswordSchema), userController.forgetPassword);
-
-// Reset password route (token will be passed in query, newPassword in body)
 router.post('/reset-password', validate(resetPasswordSchema), userController.resetPassword);
-
 router.post('/refresh-token', userController.refreshToken);
 router.post('/logout', authMiddleware, userController.logout);
 
