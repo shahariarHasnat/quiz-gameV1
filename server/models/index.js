@@ -1,17 +1,149 @@
-const sequelize = require('../config/config'); // Now correctly imports the Sequelize instance
-const Session = require('./session');
-const Participant = require('./participant');
-const User = require('./user');
+const sequelize = require('../config/config');
+const Session = require('./Session');
+const Participant = require('./Participant');
+const User = require('./User');
+const Quiz = require('./Quiz');
+const Question = require('./Question');
+const Topic = require('./Topic');
+const Subtopic = require('./Subtopic');
+const Option = require('./Option');
 
-// Define relationships
-User.hasMany(Session, { foreignKey: 'hostId', onDelete: 'CASCADE' });
-Session.belongsTo(User, { foreignKey: 'hostId' });
+// User Associations
+User.hasMany(Session, { 
+    foreignKey: 'hostID',
+    onDelete: 'CASCADE' 
+});
+User.hasMany(Participant, { 
+    foreignKey: 'userID',
+    onDelete: 'CASCADE' 
+});
+User.hasMany(Quiz, { 
+    foreignKey: 'createdBy',
+    as: 'createdQuizzes' 
+});
 
-User.hasMany(Participant, { foreignKey: 'userId', onDelete: 'CASCADE' });
-Participant.belongsTo(User, { foreignKey: 'userId' });
+// Session Associations
+Session.belongsTo(User, { 
+    foreignKey: 'hostID',
+    references: {
+        model: 'Users',
+        key: 'userID'
+    }
+});
+Session.hasMany(Participant, { 
+    foreignKey: 'sessionID',
+    onDelete: 'CASCADE' 
+});
+Session.belongsTo(Quiz, { 
+    foreignKey: 'quizID',
+    references: {
+        model: 'Quizzes',
+        key: 'quizID'
+    }
+});
 
-Session.hasMany(Participant, { foreignKey: 'sessionId', onDelete: 'CASCADE' });
-Participant.belongsTo(Session, { foreignKey: 'sessionId' });
+// Participant Associations
+Participant.belongsTo(User, { 
+    foreignKey: 'userID',
+    references: {
+        model: 'Users',
+        key: 'userID'
+    }
+});
+Participant.belongsTo(Session, { 
+    foreignKey: 'sessionID',
+    references: {
+        model: 'Sessions',
+        key: 'sessionID'
+    }
+});
 
-// Export models and Sequelize instance
-module.exports = { sequelize, Session, Participant, User };
+// Quiz Associations
+Quiz.hasMany(Session, { 
+    foreignKey: 'quizID',
+    onDelete: 'CASCADE' 
+});
+Quiz.belongsTo(Topic, { 
+    foreignKey: 'topicID',
+    as: 'topic',
+    references: {
+        model: 'Topics',
+        key: 'topicID'
+    }
+});
+Quiz.belongsToMany(Question, { 
+    through: 'Quiz_Questions',
+    foreignKey: 'quizID',
+    otherKey: 'questionID' 
+});
+Quiz.belongsTo(User, { 
+    foreignKey: 'createdBy',
+    as: 'creator',
+    references: {
+        model: 'Users',
+        key: 'userID'
+    }
+});
+
+// Topic Associations
+Topic.hasMany(Quiz, { 
+    foreignKey: 'topicID',
+    onDelete: 'CASCADE' 
+});
+Topic.hasMany(Subtopic, { 
+    foreignKey: 'topicID',
+    onDelete: 'CASCADE' 
+});
+
+// Subtopic Associations
+Subtopic.belongsTo(Topic, { 
+    foreignKey: 'topicID',
+    references: {
+        model: 'Topics',
+        key: 'topicID'
+    }
+});
+Subtopic.hasMany(Question, { 
+    foreignKey: 'subtopicID',
+    onDelete: 'CASCADE' 
+});
+
+// Question Associations
+Question.belongsToMany(Quiz, { 
+    through: 'Quiz_Questions',
+    foreignKey: 'questionID',
+    otherKey: 'quizID' 
+});
+Question.belongsTo(Subtopic, { 
+    foreignKey: 'subtopicID',
+    references: {
+        model: 'Subtopics',
+        key: 'subtopicID'
+    }
+});
+Question.hasMany(Option, { 
+    foreignKey: 'questionID',
+    onDelete: 'CASCADE',
+    as: 'options' 
+});
+
+// Option Associations
+Option.belongsTo(Question, { 
+    foreignKey: 'questionID',
+    references: {
+        model: 'Questions',
+        key: 'questionID'
+    }
+});
+
+module.exports = {
+    sequelize,
+    Session,
+    Participant,
+    User,
+    Quiz,
+    Topic,
+    Subtopic,
+    Question,
+    Option
+};

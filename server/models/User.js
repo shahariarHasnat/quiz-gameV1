@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/config'); // Correct import
+const sequelize = require('../config/config');
 
-
-// Define the User model
 const User = sequelize.define('User', {
   userID: {
     type: DataTypes.INTEGER,
@@ -11,16 +9,32 @@ const User = sequelize.define('User', {
   },
   username: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      len: [3, 50],  // username between 3-50 characters
+      notEmpty: true
+    }
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      isEmail: true,
+      notEmpty: true
+    }
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      len: [6, 100],  // password minimum 6 characters
+      notEmpty: true
+    }
+  },
+  refreshToken: { 
+    type: DataTypes.STRING,
+    allowNull: true
   },
   resetPasswordToken: {
     type: DataTypes.STRING,
@@ -28,10 +42,14 @@ const User = sequelize.define('User', {
   },
   resetPasswordExpires: {
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: true,
+    validate: {
+      isDate: true
+    }
   }
 }, {
-  timestamps: true   // Automatically adds createdAt and updatedAt fields
+  timestamps: true,
+  tableName: 'Users'
 });
 
 module.exports = User;

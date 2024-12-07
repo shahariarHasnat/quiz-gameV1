@@ -1,21 +1,35 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/config'); // Correct import
-
+const sequelize = require('../config/config');
 
 const Participant = sequelize.define('Participant', {
-  participantId: {
+  participantID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  sessionId: {
+  sessionID: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Sessions',
+      key: 'sessionID',
+    },
   },
-  userId: {
+  userID: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'userID',
+    },
   },
-}, { timestamps: true });
+  status: {
+    type: DataTypes.ENUM('waiting', 'approved'),
+    defaultValue: 'waiting', 
+  },
+}, { 
+  timestamps: true, 
+  tableName: 'Participants' 
+});
 
 module.exports = Participant;
