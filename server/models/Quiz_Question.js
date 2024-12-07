@@ -2,7 +2,7 @@ const { sequelize, DataTypes } = require('../config/config');
 
 const Quiz_Question = sequelize.define('Quiz_Question', {
   quizID: {
-    type: DataTypes.INTEGER, // Changed from UUID to INTEGER to match Quiz model
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'Quizzes',
@@ -10,7 +10,7 @@ const Quiz_Question = sequelize.define('Quiz_Question', {
     }
   },
   questionID: {
-    type: DataTypes.INTEGER, // Changed from UUID to INTEGER to match Question model
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'Questions',

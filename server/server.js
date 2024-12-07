@@ -3,7 +3,8 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-const { sequelize } = require('./models'); 
+const db = require('./models');
+const sequelize = db.sequelize;
 const userRoutes = require('./routes/v1/userRoutes'); // Authentication routes
 const sessionRoutes = require('./routes/v1/sessionRoutes'); // Session routes
 const socketHandlers = require('./socket/socketHandlers'); // Socket handlers
@@ -35,7 +36,7 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('Database connection has been established successfully.');
-    return sequelize.sync({ alter: true });
+    return sequelize.sync({ alter: false }); // setting true will force drop and recreate all the tables
   })
   .then(() => {
     console.log('Database synchronized successfully.');

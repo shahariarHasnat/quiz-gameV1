@@ -25,11 +25,7 @@ const { sequelize, DataTypes } = require('../config/config');
       },
       topicID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Topics',
-          key: 'topicID'
-        }
+        allowNull: false
       },
       createdBy: {
         type: DataTypes.INTEGER,
@@ -88,14 +84,7 @@ const { sequelize, DataTypes } = require('../config/config');
       timestamps: true
     });
   
-    Quiz.associate = (models) => {
-      Quiz.belongsTo(models.Topic, { as: 'topic', foreignKey: 'topicID' });
-      Quiz.belongsToMany(models.Question, {
-        through: 'Quiz_Question',
-        foreignKey: 'quizID',
-        otherKey: 'questionID'
-      });
-    };
+
   
     module.exports = Quiz;
   

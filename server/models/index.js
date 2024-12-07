@@ -1,4 +1,6 @@
 const { sequelize } = require('../config/config');
+
+// Import models
 const Session = require('./Session');
 const Participant = require('./Participant');
 const User = require('./User');
@@ -7,6 +9,7 @@ const Question = require('./Question');
 const Topic = require('./Topic');
 const Subtopic = require('./Subtopic');
 const Option = require('./Option');
+const Quiz_Question = require('./Quiz_Question');
 
 // User Associations
 User.hasMany(Session, { 
@@ -137,21 +140,20 @@ Option.belongsTo(Question, {
 });
 
 // Add sync function
-const syncModels = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connection established successfully.');
-    
-    // Sync all models
-    await sequelize.sync({ alter: false }); // Set to true in development only
-    console.log('All models were synchronized successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    throw error;
-  }
-};
-
-module.exports = {
+// const syncModels = async () => {
+//     try {
+//       await sequelize.authenticate();
+//       console.log('Database connection established successfully.');
+      
+//       await sequelize.sync({ alter: false });
+//       console.log('All models were synchronized successfully.');
+//     } catch (error) {
+//       console.error('Unable to connect to the database:', error);
+//       throw error;
+//     }
+//   };
+  
+  module.exports = {
     sequelize,
     Session,
     Participant,
@@ -162,5 +164,5 @@ module.exports = {
     Question,
     Option,
     Quiz_Question,
-    syncModels  // Export sync function
+    // syncModels
 };

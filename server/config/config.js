@@ -22,9 +22,6 @@ const sequelize = new Sequelize(
   }
 );
 
-// Export both sequelize instance and DataTypes
-module.exports = {
-  sequelize,
-  DataTypes
-};
+// Export the Sequelize instance only
+module.exports = { sequelize, DataTypes }; // Export the Sequelize instance
 

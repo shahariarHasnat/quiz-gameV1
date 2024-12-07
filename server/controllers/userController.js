@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const User = require('../models/user');
+const { User } = require('../models');
 const jwtSecret = require('../config/jwtConfig'); // Import JWT secret
 const { sendPasswordResetEmail } = require('../utils/email');
 const { Op } = require('sequelize');
