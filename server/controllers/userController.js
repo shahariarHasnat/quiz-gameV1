@@ -110,21 +110,7 @@ exports.refreshToken = async (req, res) => {
   }
 
   try {
-    try {
-      const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-    } catch (err) {
-      if (err instanceof jwt.TokenExpiredError) {
-        return res.status(401).json({
-          success: false,
-          message: 'Refresh token has expired'
-        });
-      }
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid refresh token'
-      });
-    }
-
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findOne({
       where: {
         userID: decoded.id,
@@ -255,6 +241,56 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error resetting password'
+    });
+  }
+};
+
+// Get user profile
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: ['userID', 'username', 'email', 'createdAt', 'updatedAt']
+    });
+    
+    res.status(200).json({
+      success: true,
+      data: user
+    });
+  } catch (error) {
+    console.error('Get profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching profile'
+    });
+  }
+};
+
+// Update user profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const user = await User.findByPk(req.user.id);
+    
+    await user.update({ 
+      username: username || user.username,
+      email: email || user.email
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      data: {
+        userID: user.userID,
+        username: user.username,
+        email: user.email,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating profile'
     });
   }
 };

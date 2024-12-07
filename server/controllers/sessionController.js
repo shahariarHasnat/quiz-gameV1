@@ -1,5 +1,5 @@
 const sessionService = require('../services/sessionService');
-const Quiz = require('../models/quiz');
+const Quiz = require('../models/Quiz');
 
 const createSession = async (req, res) => {
   try {

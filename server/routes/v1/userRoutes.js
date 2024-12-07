@@ -4,7 +4,7 @@ const userController = require('../../controllers/userController');
 const authMiddleware = require('../../middleware/authMiddleware');
 const Joi = require('joi');
 
-// Password validation schema
+// Validation schemas (keep existing validation)
 const registerSchema = Joi.object({
   username: Joi.string().min(3).max(30).required(),
   email: Joi.string().email().required(),
@@ -28,22 +28,29 @@ const resetPasswordSchema = Joi.object({
     .required(),
 });
 
-// Middleware to validate Joi schema
+// Validation middleware
 const validate = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      return res.status(400).json({ 
+        success: false,
+        message: error.details[0].message 
+      });
     }
     next();
   };
 };
 
+// Public routes
 router.post('/register', validate(registerSchema), userController.register);
 router.post('/login', validate(loginSchema), userController.login);
 router.post('/forget-password', validate(forgetPasswordSchema), userController.forgetPassword);
 router.post('/reset-password', validate(resetPasswordSchema), userController.resetPassword);
 router.post('/refresh-token', userController.refreshToken);
-router.post('/logout', authMiddleware, userController.logout);
+
+// Protected routes
+router.use(authMiddleware);
+router.post('/logout', userController.logout);
 
 module.exports = router;

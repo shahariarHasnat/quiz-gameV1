@@ -8,6 +8,12 @@ const sequelize = db.sequelize;
 const userRoutes = require('./routes/v1/userRoutes'); // Authentication routes
 const sessionRoutes = require('./routes/v1/sessionRoutes'); // Session routes
 const socketHandlers = require('./socket/socketHandlers'); // Socket handlers
+const quizRoutes = require('./v1/quizRoutes');
+const questionRoutes = require('./v1/questionRoutes');
+const topicRoutes = require('./v1/topicRoutes');
+const subtopicRoutes = require('./v1/subtopicRoutes');
+
+
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +33,14 @@ app.use(express.json());
 // Routes
 app.use('/user', userRoutes); // Example user routes 
 app.use('/session', sessionRoutes); // Session routes
+router.use('/quizzes', quizRoutes);
+router.use('/questions', questionRoutes);
+router.use('/topics', topicRoutes);
+router.use('/subtopics', subtopicRoutes);
+
+
+
+
 
 // Socket handlers
 socketHandlers(io);
