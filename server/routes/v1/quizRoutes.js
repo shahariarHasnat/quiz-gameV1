@@ -2,23 +2,32 @@
 
 const express = require('express');
 const router = express.Router();
-const { quizController } = require('../../controllers');
-const { authMiddleware, validateQuiz, validateQuizStatus } = require('../../middleware');
+const quizController = require('../../controllers/quizController');
+const authMiddleware = require('../../middleware/authMiddleware');
+const { validate } = require('../../middleware/validationMiddleware');
+const {
+  createQuizSchema,
+  updateQuizSchema,
+  quizModeSchema,
+  quizStepSchema
+} = require('../../validations/quizValidation');
 
-// All quiz routes require authentication
 router.use(authMiddleware);
 
+// Search route before parameterized routes
+router.get('/search', quizController.searchQuizzes);
+
 // Quiz CRUD operations
-router.post('/', validateQuiz.create, quizController.createQuiz);
+router.post('/', validate(createQuizSchema), quizController.createQuiz);
 router.get('/', quizController.getQuizzes);
-router.get('/:id', validateQuiz.getById, quizController.getQuiz);
-router.put('/:id', [validateQuiz.update, validateQuizStatus], quizController.updateQuiz);
-router.delete('/:id', validateQuiz.delete, quizController.deleteQuiz);
+router.get('/:id', quizController.getQuiz);
+router.put('/:id', validate(updateQuizSchema), quizController.updateQuiz);
+router.delete('/:id', quizController.deleteQuiz);
 
 // Quiz specific operations
-router.post('/:id/questions', validateQuiz.addQuestions, quizController.addQuestions);
-router.put('/:id/mode', validateQuiz.updateMode, quizController.updateQuizMode);
-router.put('/:id/step', validateQuiz.updateStep, quizController.updateQuizStep);
-router.post('/:id/start', validateQuiz.start, quizController.startQuiz);
+router.post('/:id/questions', validate(createQuestionSchema), quizController.addQuestions);
+router.put('/:id/mode', validate(quizModeSchema), quizController.updateQuizMode);
+router.put('/:id/step', validate(quizStepSchema), quizController.updateQuizStep);
+router.post('/:id/start', quizController.startQuiz);
 
 module.exports = router;

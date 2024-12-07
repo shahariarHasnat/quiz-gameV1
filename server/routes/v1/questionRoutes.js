@@ -2,19 +2,28 @@
 
 const express = require('express');
 const router = express.Router();
-const { questionController } = require('../../controllers');
-const { authMiddleware, validateQuestion } = require('../../middleware');
+const questionController = require('../../controllers/questionController');
+const authMiddleware = require('../../middleware/authMiddleware');
+const { validate } = require('../../middleware/validationMiddleware');
+const {
+  createQuestionSchema,
+  updateQuestionSchema
+} = require('../../validations/questionValidation');
 
-// All question routes require authentication
 router.use(authMiddleware);
 
-router.post('/', validateQuestion.create, questionController.createQuestion);
-router.get('/', questionController.getAllQuestions);
-router.get('/:id', validateQuestion.getById, questionController.getQuestionById);
-router.put('/:id', validateQuestion.update, questionController.updateQuestion);
-router.delete('/:id', validateQuestion.delete, questionController.deleteQuestion);
+// Search route before parameterized routes
+router.get('/search', questionController.searchQuestions);
 
-// Question search
-router.get('/search', validateQuestion.search, questionController.searchQuestions);
+// Question CRUD operations
+router.post('/', validate(createQuestionSchema), questionController.createQuestion);
+router.get('/', questionController.getAllQuestions);
+router.get('/:id', questionController.getQuestionById);
+router.put('/:id', validate(updateQuestionSchema), questionController.updateQuestion);
+router.delete('/:id', questionController.deleteQuestion);
+
+// Quiz specific question routes
+router.get('/quiz/:quizId', questionController.getQuizQuestions);
+router.post('/quiz/:quizId', validate(createQuestionSchema), questionController.createQuestion);
 
 module.exports = router;
