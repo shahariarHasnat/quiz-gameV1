@@ -1,8 +1,16 @@
+const userController = require('./userController');
+const quizController = require('./quizController');
+const sessionController = require('./sessionController');
+const questionController = require('./questionController');
+
+// Verify controllers exist
+if (!userController || !quizController || !sessionController || !questionController) {
+  throw new Error('Controllers not properly initialized');
+}
+
 module.exports = {
-  userController: require('./userController'),
-  quizController: require('./quizController'),
-  questionController: require('./questionController'),
-  topicController: require('./topicController'),
-  subtopicController: require('./subtopicController'),
-  sessionController: require('./sessionController')
+  userController,
+  quizController,
+  sessionController,
+  questionController
 }; 

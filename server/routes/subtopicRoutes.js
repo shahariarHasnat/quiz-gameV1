@@ -2,8 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const subtopicController = require('../../controllers/subtopicController');
-const authMiddleware = require('../../middleware/authMiddleware');
+const subtopicController = require('../controllers/subtopicController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 router.get('/topic/:topicID', subtopicController.getSubtopicsByTopicID);
 router.get('/:id', subtopicController.getSubtopicById);

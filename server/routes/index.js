@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const v1Routes = require('./v1');
 
-// Mount v1 routes
-router.use('/api/v1', v1Routes);
+// Import routes
+const quizRoutes = require('./quizRoutes');
+const userRoutes = require('./userRoutes');
+const sessionRoutes = require('./sessionRoutes');
+const questionRoutes = require('./questionRoutes');
+
+// Mount routes
+router.use('/quizzes', quizRoutes);
+router.use('/users', userRoutes);
+router.use('/sessions', sessionRoutes);
+router.use('/questions', questionRoutes);
 
 module.exports = router; 
