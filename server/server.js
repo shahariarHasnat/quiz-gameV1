@@ -12,8 +12,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Allow requests from React frontend
+    origin: process.env.CLIENT_URL || '*',
+    methods: ['GET', 'POST'],
+    credentials: true
   },
+  // transports: ['websocket'], // Use WebSocket only
 });
 
 // Middleware
@@ -21,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/user', userRoutes); // Example user routes
+app.use('/user', userRoutes); // Example user routes 
 app.use('/session', sessionRoutes); // Session routes
 
 // Socket handlers

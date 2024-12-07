@@ -7,9 +7,9 @@ const authMiddleware = (req, res, next) => {
   if (!authHeader) {
     return res.status(403).json({ message: 'No token provided' });
   }
-
   const token = authHeader.split(' ')[1]; // Extract token without 'Bearer'
 
+  
   jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
       console.error('JWT Verification Error:', err.message);
