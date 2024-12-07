@@ -1,5 +1,5 @@
 require('dotenv').config(); // Load environment variables from .env
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 // Validate environment variables
 const requiredEnvVars = ['DB_NAME', 'DB_USER', 'DB_PASS', 'DB_HOST', 'DB_PORT', 'JWT_SECRET'];
@@ -22,6 +22,9 @@ const sequelize = new Sequelize(
   }
 );
 
-// Export the Sequelize instance only
-module.exports = sequelize; // Export the Sequelize instance
+// Export both sequelize instance and DataTypes
+module.exports = {
+  sequelize,
+  DataTypes
+};
 

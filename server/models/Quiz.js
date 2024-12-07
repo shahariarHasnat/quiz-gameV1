@@ -1,5 +1,6 @@
 // models/Quiz.js
-module.exports = (sequelize, DataTypes) => {
+const { sequelize, DataTypes } = require('../config/config');
+
     const Quiz = sequelize.define('Quiz', {
       quizID: {
         type: DataTypes.INTEGER,
@@ -23,8 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       topicID: {
-        type: DataTypes.CHAR(36),
-        allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Topics',
+          key: 'topicID'
+        }
       },
       createdBy: {
         type: DataTypes.INTEGER,
@@ -92,6 +97,5 @@ module.exports = (sequelize, DataTypes) => {
       });
     };
   
-    return Quiz;
-  };
+    module.exports = Quiz;
   
