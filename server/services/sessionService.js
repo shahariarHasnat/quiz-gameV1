@@ -1,10 +1,24 @@
 const { Session, Participant } = require('../models');
 const generateCode = require('../utils/generateCode');
 
-const createSession = async (hostId) => {
-  const sessionCode = generateCode();
-  const session = await Session.create({ hostID: hostId, sessionCode });
-  await Participant.create({ sessionID: session.sessionID, userID: hostId });
+const createSession = async (hostId, quizId) => {
+  // Generate a 6-character alphanumeric code
+  const sessionCode = generateCode().slice(0, 6);
+  
+  const session = await Session.create({ 
+    hostID: hostId, 
+    quizID: quizId,
+    sessionCode,
+    isActive: true
+  });
+
+  // Create initial participant record for the host
+  await Participant.create({ 
+    sessionID: session.sessionID, 
+    userID: hostId,
+    status: 'approved' // Host is automatically approved
+  });
+
   return session;
 };
 

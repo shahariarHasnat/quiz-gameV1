@@ -8,11 +8,27 @@ module.exports = (io) => {
 
     socket.on('joinRoom', async ({ sessionCode }) => {
       try {
-        const session = await Session.findOne({ where: { sessionCode, isActive: true } });
-        if (!session) throw new Error('Invalid session');
+        const session = await Session.findOne({ 
+          where: { 
+            sessionCode, 
+            isActive: true 
+          } 
+        });
+        
+        if (!session) {
+          throw new Error('Invalid session');
+        }
 
-        const participant = await Participant.findOne({ where: { sessionId: session.sessionId, userId: socket.user.userId } });
-        if (!participant) throw new Error('User not part of the session');
+        const participant = await Participant.findOne({ 
+          where: { 
+            sessionID: session.sessionID, 
+            userID: socket.user.userId 
+          } 
+        });
+
+        if (!participant) {
+          throw new Error('User not part of the session');
+        }
 
         socket.join(sessionCode);
         io.to(sessionCode).emit('userJoined', { userId: socket.user.userId });

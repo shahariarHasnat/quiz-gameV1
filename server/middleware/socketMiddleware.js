@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { secret } = require('../config/jwtConfig');
+const jwtSecret = require('../config/jwtConfig');
 
 const socketAuthMiddleware = (socket, next) => {
   // Check multiple possible token locations
@@ -16,9 +16,11 @@ const socketAuthMiddleware = (socket, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, jwtSecret);
     console.log('Token verified successfully:', decoded);
-    socket.user = decoded;
+    socket.user = {
+      userId: decoded.id
+    };
     next();
   } catch (err) {
     console.error('Token verification failed:', err.message);

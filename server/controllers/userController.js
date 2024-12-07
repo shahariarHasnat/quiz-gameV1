@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
 
     console.log(user.userID)   //output: undefined
     // Correct token generation
-    const token = jwt.sign({ id: user.userID, email: user.email },jwtSecret,{ expiresIn: '10h' } );
+    const token = jwt.sign({ id: user.userID},jwtSecret,{ expiresIn: '100h' } );
 
     // Respond with the token
     res.status(200).json({ message: 'Login successful', token });

@@ -1,12 +1,29 @@
 const sessionService = require('../services/sessionService');
+const Quiz = require('../models/quiz');
 
 const createSession = async (req, res) => {
   try {
-
-    console.log('req.user:', req.user);
-
     const { userId } = req.user;
-    const session = await sessionService.createSession(userId);
+    const { quizId } = req.body;
+
+    // Validate request body
+    if (!quizId) {
+      return res.status(400).json({ error: 'quizId is required' });
+    }
+
+    // Check if quiz exists and is valid
+    const quiz = await Quiz.findOne({ 
+      where: { 
+        quizID: quizId,
+        status: 'ready' // Only allow creating sessions for ready quizzes
+      } 
+    });
+
+    if (!quiz) {
+      return res.status(404).json({ error: 'Quiz not found or not ready' });
+    }
+
+    const session = await sessionService.createSession(userId, quizId);
     res.status(201).json({ sessionCode: session.sessionCode });
   } catch (err) {
     res.status(500).json({ error: err.message });
