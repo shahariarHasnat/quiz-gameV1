@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../../controllers/userController');
+const authMiddleware = require('../../middleware/authMiddleware');
 const Joi = require('joi');
 
 // Password validation schema
@@ -49,5 +50,8 @@ router.post('/forget-password', validate(forgetPasswordSchema), userController.f
 
 // Reset password route (token will be passed in query, newPassword in body)
 router.post('/reset-password', validate(resetPasswordSchema), userController.resetPassword);
+
+router.post('/refresh-token', userController.refreshToken);
+router.post('/logout', authMiddleware, userController.logout);
 
 module.exports = router;
