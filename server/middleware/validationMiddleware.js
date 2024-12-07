@@ -5,7 +5,8 @@ const validate = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body, {
       abortEarly: false,
-      stripUnknown: true
+      stripUnknown: true,
+      context: { user: req.user }
     });
 
     if (error) {
@@ -21,6 +22,7 @@ const validate = (schema) => {
       });
     }
 
+    req.validatedData = schema.validate(req.body, { stripUnknown: true }).value;
     next();
   };
 };

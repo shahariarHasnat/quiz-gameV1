@@ -21,11 +21,7 @@ const validateQuizStatus = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error('Error validating quiz status:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Internal server error.' 
-    });
+    next(error);
   }
 };
 
