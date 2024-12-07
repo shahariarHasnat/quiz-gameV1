@@ -2,13 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
-const topicController = require('../controllers/topicController');
-const authMiddleware = require('../middleware/authMiddleware');
-const { validate } = require('../middleware/validationMiddleware');
+const topicController = require('../../controllers/topicController');
+const authMiddleware = require('../../middleware/authMiddleware');
+const { validate } = require('../../middleware/validationMiddleware');
 const {
   createTopicSchema,
   updateTopicSchema
-} = require('../validations/topicValidation');
+} = require('../../validations/topicValidation');
 
 // Public routes
 router.get('/', topicController.getAllTopics);

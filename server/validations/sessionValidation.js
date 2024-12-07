@@ -1,32 +1,20 @@
 const Joi = require('joi');
 
 const sessionValidation = {
-  create: (req, res, next) => {
-    const schema = Joi.object({
-      quizId: Joi.number().required()
-    });
+  // Session Creation
+  createSessionSchema: Joi.object({
+    quizID: Joi.number().required(),
+    maxParticipants: Joi.number().integer().min(1).max(1000)
+  }),
 
-    validateRequest(req, res, next, schema);
-  },
+  // Session Join
+  joinSessionSchema: Joi.object({
+    sessionCode: Joi.string().length(6).required()
+  }),
 
-  join: (req, res, next) => {
-    const schema = Joi.object({
-      sessionCode: Joi.string().length(6).required()
-    });
-
-    validateRequest(req, res, next, schema);
-  }
-};
-
-const validateRequest = (req, res, next, schema) => {
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({
-      success: false,
-      message: error.details[0].message
-    });
-  }
-  next();
-};
-
-module.exports = sessionValidation; 
+  // Session Update
+  updateSessionSchema: Joi.object({
+    isActive: Joi.boolean(),
+    maxParticipants: Joi.number().integer().min(1).max(1000)
+  }).min(1)
+}; 
